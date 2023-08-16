@@ -1,27 +1,38 @@
-#include "function_pointers.h"
-
+#include "3-calc.h"
 /**
- * int_index - earches for an integer
- * @array: array to search in
- * @size: size of the array
- * @cmp: pointer to the comparing function
- *
- * Return: index of the first element for which
- * the cmp function does not return 0, or -1 if no match is found
- * or size is negative
- */
-int int_index(int *array, int size, int (*cmp)(int))
+  *main - check arguments
+  *@argc: argument count
+  *@argv: argument vector.
+  *
+  *Return: error if number of arguments is wrong
+  */
+int main(int argc, char *argv[])
 {
-	int i;
+	int a = 0, b = 0, res = 0;
+	char s;
 
-	if (array && cmp)
+	if (argc != 4)
 	{
-		for (i = 0; i < size; i++)
-		{
-			if (cmp(array[i]) != 0)
-				return (i);
-		}
+		printf("Error\n");
+		exit(98);
+	}
+	/* check if theres only one operator*/
+	if (argv[2][1] != '\0')
+	{
+		printf("Error\n");
+		exit(99);
 	}
 
-	return (-1);
+	s = argv[2][0];
+	if (s != '+' && s != '-' && s != '/' && s != '*' && s != '%')
+	{
+		printf("Error\n");
+		exit(99);
+	}
+
+	a = atoi(argv[1]);
+	b = atoi(argv[3]);
+	res = (get_op_func(argv[2]))(a, b);
+	printf("%d\n", res);
+	return (0);
 }
